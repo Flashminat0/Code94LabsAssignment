@@ -11,5 +11,4 @@ const reducer = (state = [], action) => {
         }
     }
 };
-
 export const favouriteStore = createStore(reducer, []);
