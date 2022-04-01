@@ -1,13 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import AddImageBtn from "../../components/Buttons/AddImageBtn";
-import {downloadImages} from "../../api/product/Image";
-import ProductButton from "../../components/Buttons/ProductButton";
-import InsertField from "../../components/InputFields/InsertField";
-import {addProductHandler} from "../../api/product/productFuncs";
-import {toast} from "react-toastify";
 import {useRouter} from "next/router";
+import {downloadImages} from "../../../api/product/Image";
+import {toast} from "react-toastify";
+import {addProductHandler, getProductDetails} from "../../../api/product/productFuncs";
+import InsertField from "../../../components/InputFields/InsertField";
+import AddImageBtn from "../../../components/Buttons/AddImageBtn";
+import ProductButton from "../../../components/Buttons/ProductButton";
 
-const AddProduct = () => {
+const editProduct = () => {
+    const router = useRouter();
+
+    const {editProduct} = router.query;
+
+
     //Form States
     const [SKU, setSKU] = useState('');
     const [name, setName] = useState('');
@@ -20,7 +25,19 @@ const AddProduct = () => {
     const [imageBase64Array, setImageBase64Array] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const router = useRouter();
+
+    useEffect(() => {
+        if (!router.isReady) return
+
+        getProductDetails(editProduct).then(res => {
+            setSKU(res.SKU);
+            setName(res.Name);
+            setQTY(res.QTY);
+            setProductDescription(res.Description);
+            setImageArray(res.ImageIDs);
+            setSelectedImage(res.selectedImage);
+        });
+    }, [router.isReady]);
 
     //* add image IDs to an array
     const handleImageArray = (imageId) => {
@@ -91,6 +108,7 @@ const AddProduct = () => {
                                         </div>
                                         <div className="grid grid-cols-1 grid-rows-1">
                                             <textarea
+                                                value={productDescription}
                                                 onChange={(e) => setProductDescription(e.target.value)}
                                                 className="block w-full border-0 border-b border-transparent bg-background focus:border-indigo-600 focus:ring-0 sm:text-sm"
                                             />
@@ -136,8 +154,7 @@ const AddProduct = () => {
                 </div>
             </div>
         </>
-
     );
 };
 
-export default AddProduct;
+export default editProduct;

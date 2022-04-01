@@ -13,7 +13,7 @@ export const addProduct = async (req, res) => {
         }).catch((err) => {
             return res.status(500).json({
                 success: false,
-                message: "Error adding product",
+                message: "SKU ID already exists",
                 error: err
             });
         })
@@ -51,6 +51,26 @@ export const deleteProduct = async (req, res) => {
             return res.status(500).json({
                 success: false,
                 message: "Error deleting product",
+                error: err
+            });
+        })
+
+}
+
+export const getSingleProduct = async (req, res) => {
+    const {productId} = req.query;
+
+    await Product.findById(productId)
+        .then(product => {
+            return res.status(200).json({
+                success: true,
+                message: "Product retrieved successfully",
+                product: product
+            });
+        }).catch((err) => {
+            return res.status(500).json({
+                success: false,
+                message: "Error retrieving product",
                 error: err
             });
         })

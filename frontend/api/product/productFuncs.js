@@ -4,10 +4,10 @@ import {toast} from "react-toastify";
 export const addProductHandler = async (product) => {
     await axios.post('/api/product/addProduct', {product: product}).then(res => {
 
-        res.status === 200 ? toast.success('Product added successfully') : toast.error('Product add Error');
+        res.data.success ? toast.success('Product added successfully') : toast.error('Product add Error');
 
     }).catch(err => {
-        console.log(err);
+        toast.error(err.response.data.message);
     })
 }
 
@@ -30,4 +30,16 @@ export const deleteProduct = async (productId) => {
         })
     })
 
+}
+
+export const getProductDetails = async (productId) => {
+    console.log(productId);
+
+    return new Promise((resolve, reject) => {
+        axios.get('/api/product/fetch-single-Product', {params: {productId: productId}}).then(res => {
+            resolve(res.data.product);
+        }).catch(err => {
+            reject(err);
+        })
+    })
 }

@@ -7,6 +7,8 @@ import ProductButton from "../../components/Buttons/ProductButton";
 import {useRouter} from "next/router";
 import {CloudDownloadIcon} from '@heroicons/react/outline'
 import {TrashIcon, PencilIcon, StarIcon} from '@heroicons/react/solid'
+import Link from 'next/link';
+
 
 const AllProducts = () => {
     const [productArray, setProductArray] = useState([]);
@@ -123,13 +125,19 @@ const AllProducts = () => {
                                                         <TrashIcon/>
                                                         <span
                                                             className="sr-only">, {singleProduct.name}</span>
-                                                    </p> <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                    <PencilIcon/><span
-                                                    className="sr-only">, {singleProduct.name}</span>
-                                                </a> <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                    <StarIcon/><span
-                                                    className="sr-only">, {singleProduct.name}</span>
-                                                </a>
+                                                    </p>
+
+                                                    <Link href={`/product/editProduct/${singleProduct._id}`}>
+                                                        <a href="#"
+                                                           className="text-indigo-600 hover:text-indigo-900">
+                                                            <PencilIcon/><span
+                                                            className="sr-only">, {singleProduct.name}</span>
+                                                        </a></Link>
+
+                                                    <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                                                        <StarIcon/><span
+                                                        className="sr-only">, {singleProduct.name}</span>
+                                                    </a>
 
                                                 </div>
                                             </td>
