@@ -1,11 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
 import HeaderTitle from "../../components/Buttons/Header";
 import Button from "../../components/Buttons/ProductButton";
 import SearchButton from "../../components/Buttons/searchButton";
 import TableContent from "../../components/Tables/TableRow";
 import Favbutton from "../../components/Buttons/Favbutton";
+import {favouriteStore} from "../../store/favorites";
 
 const FavouriteProducts = () => {
+    useEffect(() => {
+        favouriteStore.subscribe(() => {
+            console.log('current state', favouriteStore.getState());
+        });
+    }, []);
+
   return (
     <div className="grid grid-rows-4 grid-flow-col">
       <div className="">

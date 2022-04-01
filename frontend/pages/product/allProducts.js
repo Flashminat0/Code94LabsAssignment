@@ -10,6 +10,7 @@ import {TrashIcon, PencilIcon, StarIcon} from '@heroicons/react/solid'
 import Link from 'next/link';
 
 
+
 const AllProducts = () => {
     const [productArray, setProductArray] = useState([]);
     const [imageArray, setImageArray] = useState([]);
