@@ -7,11 +7,19 @@ import ProductButton from "../../components/Buttons/ProductButton";
 import {useRouter} from "next/router";
 import {CloudDownloadIcon} from '@heroicons/react/outline'
 import {TrashIcon, PencilIcon, StarIcon} from '@heroicons/react/solid'
+import DeleteConfirmationModal from "../../components/modal/deleteConfirmationModal";
 
 const AllProducts = () => {
     const [productArray, setProductArray] = useState([]);
     const [imageArray, setImageArray] = useState([]);
     const [imageBase64Array, setImageBase64Array] = useState([]);
+
+    //modal
+    let [isOpen, setIsOpen] = useState(true)
+
+    function closeModal() {
+        setIsOpen(false)
+    }
 
     const router = useRouter();
 
@@ -22,16 +30,13 @@ const AllProducts = () => {
     }, []);
 
     useEffect(() => {
-
-
         productArray.every(async (product) => {
-
             setImageArray((prev) => {
                 return [...prev, product.selectedImage]
             });
-
-
         })
+
+        console.log(productArray);
 
     }, [productArray]);
 
@@ -89,7 +94,7 @@ const AllProducts = () => {
                                     </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
-                                    {productArray.map((singleProduct, index) => (
+                                    {productArray > 0 && productArray.map((singleProduct, index) => (
                                         <tr key={singleProduct._id}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-secondary sm:pl-6 md:pl-0">
                                                 #{singleProduct.SKU.toUpperCase()}
@@ -112,13 +117,12 @@ const AllProducts = () => {
                                                 24.00
                                             </td>
                                             <td>
+                                                <DeleteConfirmationModal isOpen={isOpen} closeModal={closeModal}
+                                                                         id={singleProduct._id}
+                                                                         setProductArray={setProductArray()}/>
                                                 <div className={`grid grid-cols-3 h-10 cursor-pointer`}>
                                                     <p onClick={(x) => {
-                                                        deleteProduct(singleProduct._id).then(async () => {
-                                                            await fetchProducts().then(res => {
-                                                                setProductArray(res);
-                                                            })
-                                                        })
+                                                        setIsOpen(true);
                                                     }} className="text-indigo-600 hover:text-indigo-900">
                                                         <TrashIcon/>
                                                         <span
