@@ -43,3 +43,13 @@ export const getProductDetails = async (productId) => {
         })
     })
 }
+
+export const updateProduct = async (id, product) => {
+    return new Promise((resolve, reject) => {
+        axios.put('/api/product/updateProduct', {productId: id, product: product}).then(res => {
+            resolve(res.data.message);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}

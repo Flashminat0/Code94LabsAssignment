@@ -74,5 +74,24 @@ export const getSingleProduct = async (req, res) => {
                 error: err
             });
         })
-
 }
+
+export const updateProduct = async (req, res) => {
+    const {productId , product} = req.body;
+
+    await Product.findByIdAndUpdate(productId, product)
+        .then(product => {
+            return res.status(200).json({
+                success: true,
+                message: "Product updated successfully",
+                product: product
+            });
+        }).catch((err) => {
+            return res.status(500).json({
+                success: false,
+                message: "Error updating product",
+                error: err
+            });
+        })
+}
+

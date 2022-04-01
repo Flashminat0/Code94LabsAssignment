@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {downloadImages} from "../../../api/product/Image";
 import {toast} from "react-toastify";
-import {addProductHandler, getProductDetails} from "../../../api/product/productFuncs";
+import {addProductHandler, getProductDetails, updateProduct} from "../../../api/product/productFuncs";
 import InsertField from "../../../components/InputFields/InsertField";
 import AddImageBtn from "../../../components/Buttons/AddImageBtn";
 import ProductButton from "../../../components/Buttons/ProductButton";
@@ -55,7 +55,7 @@ const editProduct = () => {
         })
     }, [imageArray]);
 
-    const handleProductAdd = async (event) => {
+    const handleProductEdit = async (event) => {
 
         event.preventDefault();
 
@@ -73,7 +73,7 @@ const editProduct = () => {
             selectedImage: selectedImage ? selectedImage : imageArray[0]
         };
 
-        await addProductHandler(product).then(
+        await updateProduct(editProduct, product).then(
             router.push('/product/allProducts')
         )
 
@@ -146,7 +146,7 @@ const editProduct = () => {
 
                                 </div>
                                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                    <ProductButton handleAction={handleProductAdd} name={"Add Product"}/>
+                                    <ProductButton handleAction={handleProductEdit} name={"Save Changes"}/>
                                 </div>
                             </div>
                         </div>
